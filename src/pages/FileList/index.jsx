@@ -178,13 +178,13 @@ export const FileList = props => {
           <Card bordered={false}>
             <Row>
               <Col sm={8} xs={24}>
-                <Info title="文档数量" value="8个" bordered />
+                <Info title="文档总数量" value="8个" bordered />
               </Col>
               <Col sm={8} xs={24}>
                 <Info title="文档处理平均处理时间" value="32分钟" bordered />
               </Col>
               <Col sm={8} xs={24}>
-                <Info title="文档处理数" value="24个" />
+                <Info title="已处理文档处理数量" value="24个" />
               </Col>
             </Row>
           </Card>
@@ -192,7 +192,7 @@ export const FileList = props => {
           <Card
             className={styles.listCard}
             bordered={false}
-            title="文档列表"
+            title="处理文档列表"
             style={{
               marginTop: 24,
             }}

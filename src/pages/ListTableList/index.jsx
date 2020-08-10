@@ -79,7 +79,7 @@ const TableList = () => {
   const [selectedRowsState, setSelectedRows] = useState([]);
   const columns = [
     {
-      title: '规则名称',
+      title: '文件名称',
       dataIndex: 'name',
       rules: [
         {
@@ -94,11 +94,18 @@ const TableList = () => {
       valueType: 'textarea',
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
+      title: '命名实体数量',
+      dataIndex: 'entityNo',
       sorter: true,
       hideInForm: true,
-      renderText: val => `${val} 万`,
+      renderText: val => `${val}个`,
+    },
+    {
+      title: '关系种类',
+      dataIndex: 'ralNo',
+      sorter: true,
+      hideInForm: true,
+      renderText: val => `${val}种`,
     },
     {
       title: '状态',
@@ -106,25 +113,17 @@ const TableList = () => {
       hideInForm: true,
       valueEnum: {
         0: {
-          text: '关闭',
+          text: '已处理',
           status: 'Default',
         },
         1: {
-          text: '运行中',
+          text: '未处理',
           status: 'Processing',
-        },
-        2: {
-          text: '已上线',
-          status: 'Success',
-        },
-        3: {
-          text: '异常',
-          status: 'Error',
-        },
+        }
       },
     },
     {
-      title: '上次调度时间',
+      title: '文件创建时间',
       dataIndex: 'updatedAt',
       sorter: true,
       valueType: 'dateTime',
@@ -155,10 +154,10 @@ const TableList = () => {
               setStepFormValues(record);
             }}
           >
-            配置
+            删除
           </a>
           <Divider type="vertical" />
-          <a href="">订阅警报</a>
+          <a href="">实体关系抽取</a>
         </>
       ),
     },
@@ -166,12 +165,12 @@ const TableList = () => {
   return (
     <PageContainer>
       <ProTable
-        headerTitle="查询表格"
+        headerTitle="个人文件"
         actionRef={actionRef}
         rowKey="key"
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建
+            <PlusOutlined /> 上传文件
           </Button>,
         ]}
         request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}

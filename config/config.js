@@ -69,7 +69,7 @@ export default defineConfig({
                   authority: ['admin'],
                 },
               ],
-            }, 
+            },
             {
               name: 'list.table-list',
               icon: 'table',
@@ -93,6 +93,12 @@ export default defineConfig({
               icon: 'FileSearchOutlined',
               path: '/listsearcharticles',
               component: './ListSearchArticles',
+            },
+            {
+              name: '分析页面',
+              icon: 'DashboardOutlined',
+              path: '/dashboardanalysis',
+              component: './DashboardAnalysis',
             },
             {
               component: './404',

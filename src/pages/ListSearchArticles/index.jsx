@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-import { Button, Card, Col, Form, List, Row, Select, Tag } from 'antd';
+import { Input, Button, Card, Col, Form, List, Row, Select, Tag } from 'antd';
 import { LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ArticleListContent from './components/ArticleListContent';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 import styles from './style.less';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
 
 const { Option } = Select;
 const FormItem = Form.Item;
 const pageSize = 5;
-
+const {Search} = Input;
 const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading }) => {
   const [form] = Form.useForm();
   useEffect(() => {
@@ -143,6 +143,14 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
   );
   return (
     <PageHeaderWrapper>
+      <Card bordered={false}>
+        <Search
+              placeholder="input search text"
+              enterButton="Search"
+              size="large"
+              onSearch={value => console.log(value)}
+            />
+      </Card>
       <Card bordered={false}>
         <Form
           layout="inline"

@@ -1,11 +1,10 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React, { useState, useEffect } from 'react';
-import { Spin,Input } from 'antd';
+import { Spin, Input } from 'antd';
 import styles from './index.less';
 import GraphChart from './GraphChart.jsx';
-
+import EntityTable from './EntityTable';
 const { Search } = Input;
-
 export default () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -21,14 +20,15 @@ export default () => {
         }}
       >
         <Search
-            placeholder="input search text"
-            enterButton="Search"
-            size="large"
-            onSearch={value => console.log(value)}
-          />
+          placeholder="input search text"
+          enterButton="Search"
+          size="large"
+          onSearch={value => console.log(value)}
+        />
         <GraphChart />
-        <Spin spinning={loading} size="large"  />
+        <Spin spinning={loading} size="large" />
       </div>
+      <EntityTable />
     </PageHeaderWrapper>
   );
 };
