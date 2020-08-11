@@ -1,11 +1,10 @@
-import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
 import { Alert, Checkbox } from 'antd';
 import React, { useState } from 'react';
-import { Link, connect } from 'umi';
+import { connect } from 'umi';
 import LoginForm from './components/Login';
 import styles from './style.less';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginForm;
+const { Tab, UserName, Password, Submit } = LoginForm;
 
 const LoginMessage = ({ content }) => (
   <Alert

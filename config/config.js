@@ -78,7 +78,7 @@ export default defineConfig({
             },
             {
               name: '处理列表',
-              icon: 'LoadingOutlined',
+              icon: 'CalculatorOutlined',
               path: '/filelist',
               component: './FileList',
             },

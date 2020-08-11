@@ -4,6 +4,7 @@ import { Spin, Input } from 'antd';
 import styles from './index.less';
 import GraphChart from './GraphChart.jsx';
 import EntityTable from './EntityTable';
+
 const { Search } = Input;
 export default () => {
   const [loading, setLoading] = useState(true);

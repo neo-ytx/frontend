@@ -58,9 +58,7 @@ export default class GraphChart extends Component {
         )
     }
 
-    btnaddsingle(){
-        d3.select('.graphcontainer').style("cursor", "crosshair");//进入新增模式，鼠标变成＋
-    }
+
 
     btndeletelink() {
         this.isdeletelink = true;
@@ -494,6 +492,7 @@ export default class GraphChart extends Component {
         let arrow_path = "M0,-5L10,0L0,5";// 定义箭头形状
         arrowMarker.append("path").attr("d", arrow_path).attr("fill", "#fce6d4");
     }
+
     addnodebutton(SVG) {
         let self = this;
         let nodebutton = SVG.append("defs").append("g")
@@ -535,6 +534,7 @@ export default class GraphChart extends Component {
             })
             .attr("font-size", 10);
     }
+
     dragstarted(d) {
         if (!d3.event.active) {
             let simulation = simulation.alphaTarget(0.3).restart();
@@ -546,10 +546,12 @@ export default class GraphChart extends Component {
         d.fy = d.y;
         d.fixed = true;
     }
+
     dragged(d) {
         d.fx = d3.event.x;
         d.fy = d3.event.y;
     }
+
     dragended(d) {
         if (!d3.event.active){
             let simulation = simulation.alphaTarget(0);
@@ -558,6 +560,7 @@ export default class GraphChart extends Component {
             })
         }
     }
+
     drawnode(node) {
         let self = this;
         let nodeEnter = node.enter().append("circle");
@@ -659,6 +662,7 @@ export default class GraphChart extends Component {
             .on("end", self.dragended));
         return nodeEnter;
     }
+
     drawnodetext(nodetext) {
         let self = this;
         let nodetextenter = nodetext.enter().append("text")
@@ -712,6 +716,7 @@ export default class GraphChart extends Component {
 
         return nodetextenter;
     }
+
     drawnodesymbol(nodesymbol) {
         let self = this;
         let symnol_path = "M566.92736 550.580907c30.907733-34.655573 25.862827-82.445653 25.862827-104.239787 0-108.086613-87.620267-195.805867-195.577173-195.805867-49.015467 0-93.310293 18.752853-127.68256 48.564907l-0.518827-0.484693-4.980053 4.97664c-1.744213 1.64864-3.91168 2.942293-5.59104 4.72064l0.515413 0.484693-134.69696 133.727573L216.439467 534.8352l0 0 137.478827-136.31488c11.605333-10.410667 26.514773-17.298773 43.165013-17.298773 36.051627 0 65.184427 29.197653 65.184427 65.24928 0 14.032213-5.33504 26.125653-12.73856 36.829867l-131.754667 132.594347 0.515413 0.518827c-10.31168 11.578027-17.07008 26.381653-17.07008 43.066027 0 36.082347 29.16352 65.245867 65.184427 65.245867 16.684373 0 31.460693-6.724267 43.035307-17.07008l0.515413 0.512M1010.336427 343.49056c0-180.25472-145.882453-326.331733-325.911893-326.331733-80.704853 0-153.77408 30.22848-210.418347 79.0528l0.484693 0.64512c-12.352853 11.834027-20.241067 28.388693-20.241067 46.916267 0 36.051627 29.16352 65.245867 65.211733 65.245867 15.909547 0 29.876907-6.36928 41.192107-15.844693l0.38912 0.259413c33.624747-28.030293 76.301653-45.58848 123.511467-45.58848 107.99104 0 195.549867 87.6544 195.549867 195.744427 0 59.815253-27.357867 112.71168-69.51936 148.503893l0 0-319.25248 317.928107 0 0c-35.826347 42.2912-88.654507 69.710507-148.340053 69.710507-107.956907 0-195.549867-87.68512-195.549867-195.805867 0-59.753813 27.385173-112.646827 69.515947-148.43904l-92.18048-92.310187c-65.69984 59.559253-107.700907 144.913067-107.700907 240.749227 0 180.28544 145.885867 326.301013 325.915307 326.301013 95.218347 0 180.02944-41.642667 239.581867-106.827093l0.13312 0.129707 321.061547-319.962453-0.126293-0.13312C968.69376 523.615573 1010.336427 438.71232 1010.336427 343.49056L1010.336427 343.49056 1010.336427 343.49056zM1010.336427 343.49056";// 定义回形针形状
@@ -722,6 +727,7 @@ export default class GraphChart extends Component {
             .on("end", self.dragended));
         return nodesymbolEnter;
     }
+
     drawnodebutton(nodebutton) {
         let self = this;
         let nodebuttonEnter = nodebutton.enter().append("g").append("use")//  为每个节点组添加一个 use 子元素
@@ -736,6 +742,7 @@ export default class GraphChart extends Component {
 
         return nodebuttonEnter;
     }
+    
     drawlink(link) {
         let self = this;
         let linkEnter = link.enter().append("path")
@@ -775,6 +782,7 @@ export default class GraphChart extends Component {
         });
         return linkEnter;
     }
+
     drawlinktext(link) {
         let linktextEnter = link.enter().append('text')
             .style('fill', '#e3af85')
@@ -804,20 +812,21 @@ export default class GraphChart extends Component {
 
         return linktextEnter;
     }
+
     deletenode(out_buttongroup_id, selectnodeid) {
-        let self = this;
+        const self = this;
         self.$confirm('此操作将删除该节点及周边关系(不可恢复), 是否继续?', '三思而后行', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
         }).then(function () {
-            let data = {domain: self.state.domain, nodeid: selectnodeid};
+            const data = {domain: self.state.domain, nodeid: selectnodeid};
             $.ajax({
-                data: data,
+                data,
                 type: "POST",
-                url: contextRoot + "deletenode",
-                success: function (result) {
-                    if (result.code == 200) {
+                url: "deletenode",
+                success(result) {
+                    if (result.code === 200) {
                         let {
                             svg,
                             graph,
@@ -881,23 +890,24 @@ export default class GraphChart extends Component {
             });
         });
     }
+
     deletelink() {
-        let self = this;
+        const self = this;
         this.$confirm('此操作将删除该关系(不可恢复), 是否继续?', '三思而后行', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
         }).then(function () {
-            let data = {domain: self.domain, shipid: self.selectnodeid};
+            const data = {domain: self.domain, shipid: self.selectnodeid};
             $.ajax({
-                data: data,
+                data,
                 type: "POST",
-                url: contextRoot + "deletelink",
-                success: function (result) {
-                    if (result.code == 200) {
+                url: "deletelink",
+                success(result) {
+                    if (result.code === 200) {
                         let j = -1;
-                        for (let i = 0; i < self.graph.links.length; i++) {
-                            if (self.graph.links[i].uuid == self.selectnodeid) {
+                        for (let i = 0; i < self.graph.links.length; i+=1) {
+                            if (self.graph.links[i].uuid === self.selectnodeid) {
                                 j = i;
                                 break;
                             }
@@ -918,17 +928,18 @@ export default class GraphChart extends Component {
             });
         });
     }
+
     createlink(sourceId, targetId, ship) {
-        let self = this;
-        let data = {domain: self.domain, sourceid: sourceId, targetid: targetId, ship: ''};
+        const self = this;
+        const data = {domain: self.domain, sourceid: sourceId, targetid: targetId, ship: ''};
         $.ajax({
-            data: data,
+            data,
             type: "POST",
-            url: contextRoot + "createlink",
-            success: function (result) {
-                if (result.code == 200) {
-                    let newship = result.data;
-                    let {
+            url: "createlink",
+            success(result) {
+                if (result.code === 200) {
+                    const newship = result.data;
+                    const {
                         svg,
                         graph,
                         linkGroup,
@@ -940,7 +951,7 @@ export default class GraphChart extends Component {
                         simulation,
                     } = self.state;
                     graph.links.push(newship);
-                    let state ={
+                    const state ={
                         svg,
                         graph,
                         linkGroup,
@@ -960,24 +971,26 @@ export default class GraphChart extends Component {
             }
         });
     }
+
     updatelinkName() {
-        let self = this;
+        const self = this;
         self.$prompt('请输入关系名称', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             inputValue: this.selectlinkname
         }).then(function (res) {
-            value=res.value;
-            let data = {domain: self.domain, shipid: self.selectnodeid, shipname: value};
+            const {value} = res;
+            const data = {domain: self.domain, shipid: self.selectnodeid, shipname: value};
             $.ajax({
-                data: data,
+                data,
                 type: "POST",
-                url: contextRoot + "updatelink",
-                success: function (result) {
-                    if (result.code == 200) {
-                        let newship = result.data;
-                        self.graph.links.forEach(function (m) {
-                            if (m.uuid == newship.uuid) {
+                url: "updatelink",
+                success(result) {
+                    if (result.code === 200) {
+                        const newship = result.data;
+                        self.graph.links.forEach(function (model) {
+                            const m = model;
+                            if (m.uuid === newship.uuid) {
                                 m.name = newship.name;
                             }
                         });
@@ -995,24 +1008,25 @@ export default class GraphChart extends Component {
             });
         });
     }
+
     updatenodename(d) {
-        let self = this;
+        const self = this;
         self.$prompt('编辑节点名称', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             inputValue: d.name
         }).then(function (res) {
-            value=res.value;
-            let data = {domain: self.domain, nodeid: d.uuid, nodename: value};
+            const {value} = res;
+            const data = {domain: self.domain, nodeid: d.uuid, nodename: value};
             $.ajax({
-                data: data,
+                data,
                 type: "POST",
-                url: contextRoot + "updatenodename",
-                success: function (result) {
-                    if (result.code == 200) {
-                        if (d.uuid != 0) {
-                            for (let i = 0; i < self.graph.nodes.length; i++) {
-                                if (self.graph.nodes[i].uuid == d.uuid) {
+                url:  "updatenodename",
+                success(result) {
+                    if (result.code === 200) {
+                        if (d.uuid !== 0) {
+                            for (let i = 0; i < self.graph.nodes.length; i+=1) {
+                                if (self.graph.nodes[i].uuid === d.uuid) {
                                     self.graph.nodes[i].name = value;
                                 }
                             }
@@ -1032,19 +1046,26 @@ export default class GraphChart extends Component {
             });
         });
     }
+
     getNodeDetail(nodeid) {
-        let self = this;
-        let data = {domainid: self.domainid, nodeid: nodeid};
-        // $.ajax({
-        //     data: data,
-        //     type: "POST",
-        //     url: contextRoot + "getnodedetail",
-        //     success: function (result) {
-        //         if (result.code == 200) {
-        //             self.editorcontent = result.data.content;
-        //             self.showImageList = result.data.imagelist;
-        //         }
-        //     }
-        // })
+        const self = this;
+        const data = {domainid: self.domainid, nodeid};
+        $.ajax({
+            data,
+            type: "POST",
+            url: "getnodedetail",
+            success(result) {
+                if (result.code === 200) {
+                    self.setState({
+                        editorcontent: result.data.content,
+                        showImageList: result.data.imagelist
+                    })
+                }
+            }
+        })
     }
+
+    // btnaddsingle(){
+    //     d3.select('.graphcontainer').style("cursor", "crosshair");// 进入新增模式，鼠标变成＋
+    // }
 }
