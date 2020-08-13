@@ -1,41 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
-import { Modal, Result, Button, Form, DatePicker, Input, Select } from 'antd';
+import { Modal, Input } from 'antd';
+import ProTable from '@ant-design/pro-table';
 import styles from '../style.less';
-
-const { TextArea } = Input;
-const formLayout = {
-  labelCol: {
-    span: 7,
-  },
-  wrapperCol: {
-    span: 13,
-  },
-};
+import { queryRule } from '../service'
 
 const OperationModal = props => {
-  const [form] = Form.useForm();
   const { done, visible, current, onDone, onCancel, onSubmit } = props;
-  useEffect(() => {
-    if (form && !visible) {
-      form.resetFields();
-    }
-  }, [props.visible]);
-  useEffect(() => {
-    if (current) {
-      form.setFieldsValue({
-        ...current,
-        createdAt: current.createdAt ? moment(current.createdAt) : null,
-      });
-    }
-  }, [props.current]);
+const [selectedRowsState, setSelectedRows] = useState([]);
+  const columns = [
+    {
+      title: '文件名称',
+      dataIndex: 'name',
+      rules: [
+        {
+          required: true,
+          message: '规则名称为必填项',
+        },
+      ],
+    },
+    {
+      title: '描述',
+      dataIndex: 'desc',
+      valueType: 'textarea',
+    },
+    {
+      title: '文件创建时间',
+      dataIndex: 'updatedAt',
+      sorter: true,
+      valueType: 'dateTime',
+      hideInForm: true,
+      renderFormItem: (item, { defaultRender, ...rest }, formTable) => {
+        const status = formTable.getFieldValue('status');
 
+        if (`${status}` === '0') {
+          return false;
+        }
+
+        if (`${status}` === '3') {
+          return <Input {...rest} placeholder="请输入异常原因！" />;
+        }
+
+        return defaultRender(item);
+      },
+    },
+  ];
+  
   const handleSubmit = () => {
-    if (!form) return;
-    form.submit();
-  };
-
-  const handleFinish = values => {
     if (onSubmit) {
       onSubmit(values);
     }
@@ -47,97 +58,16 @@ const OperationModal = props => {
         onCancel: onDone,
       }
     : {
-        okText: '保存',
+        okText: '提交创建',
         onOk: handleSubmit,
         onCancel,
       };
-
-  const getModalContent = () => {
-    if (done) {
-      return (
-        <Result
-          status="success"
-          title="操作成功"
-          subTitle="一系列的信息描述，很短同样也可以带标点。"
-          extra={
-            <Button type="primary" onClick={onDone}>
-              知道了
-            </Button>
-          }
-          className={styles.formResult}
-        />
-      );
-    }
-
-    return (
-      <Form {...formLayout} form={form} onFinish={handleFinish}>
-        <Form.Item
-          name="title"
-          label="任务名称"
-          rules={[
-            {
-              required: true,
-              message: '请输入任务名称',
-            },
-          ]}
-        >
-          <Input placeholder="请输入" />
-        </Form.Item>
-        <Form.Item
-          name="createdAt"
-          label="开始时间"
-          rules={[
-            {
-              required: true,
-              message: '请选择开始时间',
-            },
-          ]}
-        >
-          <DatePicker
-            showTime
-            placeholder="请选择"
-            format="YYYY-MM-DD HH:mm:ss"
-            style={{
-              width: '100%',
-            }}
-          />
-        </Form.Item>
-        <Form.Item
-          name="owner"
-          label="任务负责人"
-          rules={[
-            {
-              required: true,
-              message: '请选择任务负责人',
-            },
-          ]}
-        >
-          <Select placeholder="请选择">
-            <Select.Option value="付晓晓">付晓晓</Select.Option>
-            <Select.Option value="周毛毛">周毛毛</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="subDescription"
-          label="产品描述"
-          rules={[
-            {
-              message: '请输入至少五个字符的产品描述！',
-              min: 5,
-            },
-          ]}
-        >
-          <TextArea rows={4} placeholder="请输入至少五个字符" />
-        </Form.Item>
-      </Form>
-    );
-  };
 
   return (
     <Modal
       title={done ? null : `任务${current ? '编辑' : '添加'}`}
       className={styles.standardListForm}
-      width={640}
+      width={1000}
       bodyStyle={
         done
           ? {
@@ -151,7 +81,16 @@ const OperationModal = props => {
       visible={visible}
       {...modalFooter}
     >
-      {getModalContent()}
+      <ProTable
+        headerTitle="文件列表"
+        // actionRef={actionRef}
+        rowKey="key"
+        request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}
+        columns={columns}
+        rowSelection={{
+          onChange: (_, selectedRows) => setSelectedRows(selectedRows),
+        }}
+      />
     </Modal>
   );
 };

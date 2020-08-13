@@ -20,7 +20,7 @@ const genList = (current, pageSize) => {
       desc: '设计文档',
       entityNo: Math.floor(Math.random() * 1000),
       ralNo: Math.floor(Math.random() * 100),
-      status: Math.floor(Math.random() * 10) % 2,
+      status: Math.floor(Math.random() * 10) % 3,
       updatedAt: new Date(),
       createdAt: new Date(),
       progress: Math.ceil(Math.random() * 100),

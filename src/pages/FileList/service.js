@@ -35,3 +35,8 @@ export async function updateFakeList(params) {
     data: { ...restParams, method: 'update' },
   });
 }
+export async function queryRule(params) {
+  return request('/api/rule', {
+    params,
+  });
+}

@@ -114,10 +114,14 @@ const TableList = () => {
       valueEnum: {
         0: {
           text: '已处理',
-          status: 'Default',
+          status: 'Success',
         },
         1: {
           text: '未处理',
+          status: 'Default',
+        },
+        2: {
+          text: '正在处理',
           status: 'Processing',
         }
       },
