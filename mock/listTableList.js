@@ -133,7 +133,7 @@ function postRule(req, res, u, b) {
           owner: '曲丽丽',
           desc,
           callNo: Math.floor(Math.random() * 1000),
-          status: Math.floor(Math.random() * 10) % 2,
+          status: Math.floor(Math.random() * 10) % 3,
           updatedAt: new Date(),
           createdAt: new Date(),
           progress: Math.ceil(Math.random() * 100),

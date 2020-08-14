@@ -152,6 +152,8 @@ const TableList = () => {
       valueType: 'option',
       render: (_, record) => (
         <>
+          <a href="">实体关系抽取</a>
+          <Divider type="vertical" />
           <a
             onClick={() => {
               handleUpdateModalVisible(true);
@@ -160,8 +162,7 @@ const TableList = () => {
           >
             删除
           </a>
-          <Divider type="vertical" />
-          <a href="">实体关系抽取</a>
+          
         </>
       ),
     },
