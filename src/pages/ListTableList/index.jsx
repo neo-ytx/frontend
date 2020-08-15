@@ -1,15 +1,16 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, message, Input } from 'antd';
+import { PlusOutlined, InboxOutlined } from '@ant-design/icons';
+import { Button, Divider, message, Input, Upload } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
-import UpdateForm from './components/UpdateForm';
 import { queryRule, updateRule, addRule, removeRule } from './service';
 /**
  * 添加节点
  * @param fields
  */
+
+const { Dragger } = Upload;
 
 const handleAdd = async fields => {
   const hide = message.loading('正在添加');
@@ -72,6 +73,22 @@ const handleRemove = async selectedRows => {
 };
 
 const TableList = () => {
+  const uploadProps = {
+    name: 'file',
+    multiple: true,
+    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    onChange(info) {
+      const { status } = info.file;
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
   const [createModalVisible, handleModalVisible] = useState(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const [stepFormValues, setStepFormValues] = useState({});
@@ -216,46 +233,16 @@ const TableList = () => {
         </FooterToolbar>
       )}
       <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
-        <ProTable
-          onSubmit={async value => {
-            const success = await handleAdd(value);
-
-            if (success) {
-              handleModalVisible(false);
-
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }
-          }}
-          rowKey="key"
-          type="form"
-          columns={columns}
-          rowSelection={{}}
-        />
+        <Dragger {...uploadProps}>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">点击此处上传文件</p>
+          <p className="ant-upload-hint">
+           支持单次或者批量上传。
+          </p>
+        </Dragger>
       </CreateForm>
-      {stepFormValues && Object.keys(stepFormValues).length ? (
-        <UpdateForm
-          onSubmit={async value => {
-            const success = await handleUpdate(value);
-
-            if (success) {
-              handleUpdateModalVisible(false);
-              setStepFormValues({});
-
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }
-          }}
-          onCancel={() => {
-            handleUpdateModalVisible(false);
-            setStepFormValues({});
-          }}
-          updateModalVisible={updateModalVisible}
-          values={stepFormValues}
-        />
-      ) : null}
     </PageContainer>
   );
 };

@@ -171,6 +171,21 @@ export const FileList = props => {
     });
   };
 
+  const getfileIcon = (fileName) =>{
+    const index= fileName.lastIndexOf(".");
+    const ext = fileName.substr(index+1);
+    if(ext==='doc'||ext==='docx') {
+      return '/cus/word.svg';
+    }
+    if(ext==='csv'||ext==='xls'||ext==='xlsx') {
+      return '/cus/excel.svg';
+    }
+    if(ext==='ppt'||ext==='pptx') {
+      return '/cus/powerpoint.svg';
+    }
+    return '/cus/file.svg';
+  }
+
   return (
     <div>
       <PageHeaderWrapper>
@@ -236,7 +251,7 @@ export const FileList = props => {
                   ]}
                 >
                   <List.Item.Meta
-                    avatar={<Avatar src={item.logo} shape="square" size="large" />}
+                    avatar={<Avatar src={getfileIcon(item.title)} shape="square" size="large" />}
                     title={<a href={item.href}>{item.title}</a>}
                     description={item.subDescription}
                   />
