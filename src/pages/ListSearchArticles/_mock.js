@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const titles = [
-  'Alipay.txt',
-  'Angular.doc',
-  'Ant Design.xlsx',
+  '生物医学设计文本.txt',
+  '建筑设计文本.doc',
+  '建材数目统计表.xlsx',
   'Ant Design Pro.doc',
   'Bootstrap.ppt',
   'React.txt',
@@ -10,14 +10,14 @@ const titles = [
   'Webpack.doc',
 ];
 const avatars = [
-  'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png', // Alipay
-  'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png', // Angular
-  'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png', // Ant Design
-  'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png', // Ant Design Pro
-  'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png', // Bootstrap
-  'https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png', // React
-  'https://gw.alipayobjects.com/zos/rmsportal/ComBAopevLwENQdKWiIn.png', // Vue
-  'https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png', // Webpack
+  '/cus/user1.svg', // Alipay
+  '/cus/user1.svg', // Angular
+  '/cus/user1.svg', // Ant Design
+  '/cus/user1.svg', // Ant Design Pro
+  '/cus/user1.svg', // Bootstrap
+  '/cus/user1.svg', // React
+  '/cus/user1.svg', // Vue
+  '/cus/user1.svg', // Webpack
 ];
 const covers = [
   'https://gw.alipayobjects.com/zos/rmsportal/uMfMFlvUuceEyPpotzlq.png',
@@ -72,20 +72,20 @@ function fakeList(count) {
       like: Math.ceil(Math.random() * 100) + 100,
       message: Math.ceil(Math.random() * 10) + 10,
       content:
-        '段落示意：蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。',
+        '蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。',
       members: [
         {
-          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ZiESqWwCXBRQoaPONSJe.png',
+          avatar: '/cus/user1.svg',
           name: '曲丽丽',
           id: 'member1',
         },
         {
-          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/tBOxZPlITHqwlGjsJWaF.png',
+          avatar: '/cus/user2.svg',
           name: '王昭君',
           id: 'member2',
         },
         {
-          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/sBxjgqiuHMGRkIjqlQCd.png',
+          avatar: '/cus/user1.svg',
           name: '董娜娜',
           id: 'member3',
         },

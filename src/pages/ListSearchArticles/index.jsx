@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { Input, Button, Card, Col, Form, List, Row, Select, Tag } from 'antd';
+import { Input, Button, Card, Form, List, Select, Tag } from 'antd';
 import { LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ArticleListContent from './components/ArticleListContent';
 import StandardFormRow from './components/StandardFormRow';
-import TagSelect from './components/TagSelect';
+// import TagSelect from './components/TagSelect';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -104,19 +104,19 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
     }
   };
 
-  const formItemLayout = {
-    wrapperCol: {
-      xs: {
-        span: 24,
-      },
-      sm: {
-        span: 24,
-      },
-      md: {
-        span: 12,
-      },
-    },
-  };
+  // const formItemLayout = {
+  //   wrapperCol: {
+  //     xs: {
+  //       span: 24,
+  //     },
+  //     sm: {
+  //       span: 24,
+  //     },
+  //     md: {
+  //       span: 12,
+  //     },
+  //   },
+  // };
   const loadMore = list.length > 0 && (
     <div
       style={{
@@ -167,7 +167,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
             });
           }}
         >
-          <StandardFormRow
+          {/* <StandardFormRow
             title="所属类目"
             block
             style={{
@@ -190,7 +190,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
                 <TagSelect.Option value="cat12">类目十二</TagSelect.Option>
               </TagSelect>
             </FormItem>
-          </StandardFormRow>
+          </StandardFormRow> */}
           <StandardFormRow title="owner" grid>
             <FormItem name="owner" noStyle>
               <Select mode="multiple" placeholder="选择 owner">
@@ -205,7 +205,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
               只看自己的
             </a>
           </StandardFormRow>
-          <StandardFormRow title="其它选项" grid last>
+          {/* <StandardFormRow title="其它选项" grid last>
             <Row gutter={16}>
               <Col xl={8} lg={10} md={12} sm={24} xs={24}>
                 <FormItem {...formItemLayout} label="活跃用户" name="user">
@@ -234,7 +234,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
                 </FormItem>
               </Col>
             </Row>
-          </StandardFormRow>
+          </StandardFormRow> */}
         </Form>
       </Card>
       <Card
@@ -271,9 +271,9 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
                 }
                 description={
                   <span>
-                    <Tag>Ant Design</Tag>
-                    <Tag>设计语言</Tag>
-                    <Tag>蚂蚁金服</Tag>
+                    <Tag>生物技术</Tag>
+                    <Tag>医学</Tag>
+                    <Tag>中文文本</Tag>
                   </span>
                 }
               />

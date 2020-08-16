@@ -1,4 +1,4 @@
-import { Card, Radio } from 'antd';
+import { Card } from 'antd';
 import { FormattedMessage } from 'umi';
 import React from 'react';
 import { Pie } from './Charts';
@@ -6,11 +6,8 @@ import Yuan from '../utils/Yuan';
 import styles from '../style.less';
 
 const ProportionSales = ({
-  dropdownGroup,
-  salesType,
   loading,
   salesPieData,
-  handleChangeSalesType,
 }) => (
   <Card
     loading={loading}
@@ -25,24 +22,6 @@ const ProportionSales = ({
     style={{
       height: '100%',
     }}
-    extra={
-      <div className={styles.salesCardExtra}>
-        {dropdownGroup}
-        <div className={styles.salesTypeRadio}>
-          <Radio.Group value={salesType} onChange={handleChangeSalesType}>
-            <Radio.Button value="all">
-              <FormattedMessage id="dashboardanalysis.channel.all" defaultMessage="ALL" />
-            </Radio.Button>
-            <Radio.Button value="online">
-              <FormattedMessage id="dashboardanalysis.channel.online" defaultMessage="Online" />
-            </Radio.Button>
-            <Radio.Button value="stores">
-              <FormattedMessage id="dashboardanalysis.channel.stores" defaultMessage="Stores" />
-            </Radio.Button>
-          </Radio.Group>
-        </div>
-      </div>
-    }
   >
     <div>
       <h4
@@ -51,11 +30,11 @@ const ProportionSales = ({
           marginBottom: 32,
         }}
       >
-        <FormattedMessage id="dashboardanalysis.analysis.sales" defaultMessage="Sales" />
+        <FormattedMessage id="dashboardanalysis.analysis.visits" defaultMessage="Sales" />
       </h4>
       <Pie
         hasLegend
-        subTitle={<FormattedMessage id="dashboardanalysis.analysis.sales" defaultMessage="Sales" />}
+        subTitle={<FormattedMessage id="dashboardanalysis.analysis.visits" defaultMessage="Sales" />}
         total={() => <Yuan>{salesPieData.reduce((pre, now) => now.y + pre, 0)}</Yuan>}
         data={salesPieData}
         valueFormat={value => <Yuan>{value}</Yuan>}

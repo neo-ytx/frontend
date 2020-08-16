@@ -1,7 +1,6 @@
 import React from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Alert, Typography, Divider, Carousel  } from 'antd';
-import NET from './picture/net.png';
 
 const contentStyle = {
   height: '650px',
@@ -43,7 +42,7 @@ export default () => (
         <h3 align="middle" style={contentStyle}>
           实体关系联合抽取模型网络结构图
           <center>
-            <img  className ="welcomeImg" height="500px" src={'/cus/net.png'} alt="神经网络结构图"/>
+            <img  className ="welcomeImg" height="500px" src='/cus/net.png' alt="神经网络结构图"/>
           </center>
         </h3>
       </div>

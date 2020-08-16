@@ -173,7 +173,7 @@ const IntroduceRow = ({ loading, visitData }) => (
               overflow: 'hidden',
             }}
           >
-            <Trend
+            {/* <Trend
               flag="up"
               style={{
                 marginRight: 16,
@@ -191,7 +191,8 @@ const IntroduceRow = ({ loading, visitData }) => (
                 defaultMessage="Weekly Changes"
               />
               <span className={styles.trendText}>11%</span>
-            </Trend>
+            </Trend> */}
+            <br/>
           </div>
         }
         contentHeight={46}
