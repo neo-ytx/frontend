@@ -4,51 +4,9 @@ import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
-import { queryRule, updateRule, addRule, removeRule } from './service';
-/**
- * 添加节点
- * @param fields
- */
+import { queryRule, removeRule } from './service';
 
 const { Dragger } = Upload;
-
-const handleAdd = async fields => {
-  const hide = message.loading('正在添加');
-
-  try {
-    await addRule({ ...fields });
-    hide();
-    message.success('添加成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('添加失败请重试！');
-    return false;
-  }
-};
-/**
- * 更新节点
- * @param fields
- */
-
-const handleUpdate = async fields => {
-  const hide = message.loading('正在配置');
-
-  try {
-    await updateRule({
-      name: fields.name,
-      desc: fields.desc,
-      key: fields.key,
-    });
-    hide();
-    message.success('配置成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('配置失败请重试！');
-    return false;
-  }
-};
 /**
  *  删除节点
  * @param selectedRows
@@ -96,9 +54,9 @@ const TableList = () => {
     action: '/api/rule',
     onChange(info) {
       const { status } = info.file;
-      if (status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
+      // if (status !== 'uploading') {
+      //   console.log(info.file, info.fileList);
+      // }
       if (status === 'done') {
         message.success(`${info.file.name} 文件上传成功。`);
       } else if (status === 'error') {
@@ -221,6 +179,7 @@ const TableList = () => {
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
         }}
+        search={false}
       />
       {selectedRowsState?.length > 0 && (
         <FooterToolbar
