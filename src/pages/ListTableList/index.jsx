@@ -1,5 +1,5 @@
 import { PlusOutlined, InboxOutlined } from '@ant-design/icons';
-import { Button, Divider, message, Input, Upload } from 'antd';
+import { Button, Divider, message, Input, Upload, Popconfirm } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -71,7 +71,23 @@ const handleRemove = async selectedRows => {
     return false;
   }
 };
+const deleteConfirm = async record =>{
+  const hide = message.loading('正在删除');
+  if (!record) return true;
 
+  try {
+    await removeRule({
+      key: [record.key],
+    });
+    hide();
+    message.success('删除成功，即将刷新');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('删除失败，请重试');
+    return false;
+  }
+}
 const TableList = () => {
   const uploadProps = {
     // withCredentials: true,
@@ -90,9 +106,8 @@ const TableList = () => {
       }
     },
   };
+
   const [createModalVisible, handleModalVisible] = useState(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState(false);
-  const [stepFormValues, setStepFormValues] = useState({});
   const actionRef = useRef();
   const [selectedRowsState, setSelectedRows] = useState([]);
   const columns = [
@@ -146,13 +161,12 @@ const TableList = () => {
     },
     {
       title: '文件创建时间',
-      dataIndex: 'updatedAt',
+      dataIndex: 'createdAt',
       sorter: true,
       valueType: 'dateTime',
       hideInForm: true,
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
         const status = form.getFieldValue('status');
-
         if (`${status}` === '0') {
           return false;
         }
@@ -172,19 +186,25 @@ const TableList = () => {
         <>
           <a href="">实体关系抽取</a>
           <Divider type="vertical" />
-          <a
-            onClick={() => {
-              handleUpdateModalVisible(true);
-              setStepFormValues(record);
-            }}
+          <Popconfirm
+            title="确定删除这个文件吗？"
+            onConfirm={async () => {
+              await deleteConfirm(record);
+              actionRef.current?.reloadAndRest();
+            }
+            }
+            okText="确定"
+            cancelText="取消"
           >
-            删除
-          </a>
+            <a href="">删除</a>
+          </Popconfirm>
           
         </>
       ),
     },
   ];
+
+
   return (
     <PageContainer>
       <ProTable
@@ -215,9 +235,6 @@ const TableList = () => {
                 {selectedRowsState.length}
               </a>{' '}
               项&nbsp;&nbsp;
-              <span>
-                服务调用次数总计 {selectedRowsState.reduce((pre, item) => pre + item.callNo, 0)} 万
-              </span>
             </div>
           }
         >
@@ -230,10 +247,13 @@ const TableList = () => {
           >
             批量删除
           </Button>
-          <Button type="primary">批量审批</Button>
+          <Button type="primary">批量处理</Button>
         </FooterToolbar>
       )}
-      <CreateForm onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible}>
+      <CreateForm onCancel={() => {
+        handleModalVisible(false);
+        actionRef.current?.reloadAndRest();
+      }} modalVisible={createModalVisible}>
         <Dragger {...uploadProps}>
           <p className="ant-upload-drag-icon">
             <InboxOutlined />

@@ -7,8 +7,8 @@ export async function queryRule(params) {
 }
 export async function removeRule(params) {
   return request('/api/rule', {
-    method: 'POST',
-    data: { ...params, method: 'delete' },
+    method: 'DELETE',
+    data: { ...params },
   });
 }
 export async function addRule(params) {

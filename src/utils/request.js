@@ -54,4 +54,40 @@ const request = extend({
   // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
 });
+
+request.interceptors.request.use(async (url, options) => {
+  console.log("11")
+  // const user_name = localStorage.getItem("x-auth-username");
+  // if (user_name) {
+  //   const headers = {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'x-auth-username': user_name
+  //   };
+  //   return (
+  //     {
+  //       url: url,
+  //       options: { ...options, headers: headers },
+  //     }
+  //   );
+  // } else {
+  //   const headers = {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'x-auth-token': c_token
+  //   };
+    return (
+      {
+        url,
+        options: { ...options },
+      }
+    );
+})
+
+// response拦截器, 处理response
+request.interceptors.response.use((response, options) => {
+  console.log("!2123123")
+  return response;
+});
+
 export default request;
