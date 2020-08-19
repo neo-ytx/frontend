@@ -180,6 +180,9 @@ const TableList = () => {
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
         }}
         search={false}
+        pagination={{
+          pageSize: 10,
+        }}
       />
       {selectedRowsState?.length > 0 && (
         <FooterToolbar

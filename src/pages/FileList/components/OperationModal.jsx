@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import { Modal, Input } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import styles from '../style.less';
 import { queryRule } from '../service'
 
 const OperationModal = props => {
-  const { done, visible, current, onDone, onCancel, onSubmit } = props;
+const { visible, onCancel, onSubmit } = props;
 const [selectedRowsState, setSelectedRows] = useState([]);
   const columns = [
     {
@@ -48,35 +47,24 @@ const [selectedRowsState, setSelectedRows] = useState([]);
   
   const handleSubmit = () => {
     if (onSubmit) {
-      onSubmit(values);
+      onSubmit(selectedRowsState);
     }
   };
 
-  const modalFooter = done
-    ? {
-        footer: null,
-        onCancel: onDone,
-      }
-    : {
-        okText: '提交创建',
-        onOk: handleSubmit,
-        onCancel,
-      };
+  const modalFooter = {
+    okText: '提交创建',
+    onOk: handleSubmit,
+    onCancel,
+  };
 
   return (
     <Modal
-      title={done ? null : `任务${current ? '编辑' : '添加'}`}
+      title="添加任务"
       className={styles.standardListForm}
       width={1000}
-      bodyStyle={
-        done
-          ? {
-              padding: '72px 0',
-            }
-          : {
-              padding: '28px 0 0',
-            }
-      }
+      bodyStyle={{
+        padding: '28px 0 0',
+      }}
       destroyOnClose
       visible={visible}
       {...modalFooter}
@@ -87,6 +75,10 @@ const [selectedRowsState, setSelectedRows] = useState([]);
         rowKey="key"
         request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}
         columns={columns}
+        search={false}
+        pagination={
+          {pageSize: 5,}
+        }
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
         }}

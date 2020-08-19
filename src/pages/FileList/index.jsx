@@ -13,6 +13,7 @@ import {
   Progress,
   Radio,
   Row,
+  message,
 } from 'antd';
 import { findDOMNode } from 'react-dom';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
@@ -20,6 +21,7 @@ import { connect } from 'umi';
 import moment from 'moment';
 import OperationModal from './components/OperationModal';
 import styles from './style.less';
+import { addProcessDoc } from './service';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -61,24 +63,47 @@ export const FileList = props => {
   const {
     loading,
     dispatch,
-    fileList: { list },
+    processList: { 
+      list,
+      listTotal,
+    },
   } = props;
   const [done, setDone] = useState(false);
   const [visible, setVisible] = useState(false);
   const [current, setCurrent] = useState(undefined);
   useEffect(() => {
     dispatch({
-      type: 'fileList/fetch',
+      type: 'processList/fetch',
       payload: {
-        count: 5,
       },
     });
   }, [1]);
+
+  const handleSubmit = async selectedRows => {
+    if(selectedRows&&selectedRows.length!==0){
+      const hide = message.loading('正在提交');
+      try {
+        await addProcessDoc({
+          key: selectedRows.map(row => row.key),
+        })
+        hide();
+        message.success('提交成功');
+        return true;
+      } catch (error) {
+        hide();
+        message.error('提交失败');
+        return false;
+      }
+    }
+    return true;
+  };
+  
+
   const paginationProps = {
-    showSizeChanger: true,
+    // showSizeChanger: true,
     showQuickJumper: true,
     pageSize: 5,
-    total: 50,
+    total: listTotal,
   };
 
   const showModal = () => {
@@ -115,12 +140,11 @@ export const FileList = props => {
 
   const extraContent = (
     <div className={styles.extraContent}>
-      <RadioGroup defaultValue="all">
+      <RadioGroup defaultValue="all" >
         <RadioButton value="all">全部</RadioButton>
         <RadioButton value="progress">进行中</RadioButton>
         <RadioButton value="waiting">等待中</RadioButton>
       </RadioGroup>
-      <Search className={styles.extraContentSearch} placeholder="请输入" onSearch={() => ({})} />
     </div>
   );
 
@@ -158,19 +182,6 @@ export const FileList = props => {
     setVisible(false);
   };
 
-  const handleSubmit = values => {
-    const id = current ? current.id : '';
-    setAddBtnblur();
-    setDone(true);
-    dispatch({
-      type: 'fileList/submit',
-      payload: {
-        id,
-        ...values,
-      },
-    });
-  };
-
   const getfileIcon = (fileName) =>{
     const index= fileName.lastIndexOf(".");
     const ext = fileName.substr(index+1);
@@ -193,7 +204,7 @@ export const FileList = props => {
           <Card bordered={false}>
             <Row>
               <Col sm={8} xs={24}>
-                <Info title="文档总数量" value="8个" bordered />
+                <Info title="处理文档总数量" value={`${listTotal}个`} bordered />
               </Col>
               <Col sm={8} xs={24}>
                 <Info title="文档处理平均处理时间" value="32分钟" bordered />
@@ -269,12 +280,21 @@ export const FileList = props => {
         visible={visible}
         onDone={handleDone}
         onCancel={handleCancel}
-        onSubmit={handleSubmit}
+        onSubmit={async(selectRows) =>{
+          await handleSubmit(selectRows);
+          dispatch({
+            type: 'processList/fetch',
+            payload: {
+              count: 5,
+            },
+          });
+          setVisible(false);
+        }}
       />
     </div>
   );
 };
-export default connect(({ fileList, loading }) => ({
-  fileList,
-  loading: loading.models.fileList,
+export default connect(({ processList, loading }) => ({
+  processList,
+  loading: loading.models.processList,
 }))(FileList);
