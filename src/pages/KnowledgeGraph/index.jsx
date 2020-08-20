@@ -2,8 +2,9 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React, { useState, useEffect } from 'react';
 import { Spin, Input } from 'antd';
 import styles from './index.less';
-import GraphChart from './GraphChart.jsx';
+// import GraphChart from './GraphChart.jsx';
 import EntityTable from './EntityTable';
+import ERGraphChart from './components/ERGraphchart' ;
 
 const { Search } = Input;
 export default () => {
@@ -26,10 +27,11 @@ export default () => {
           size="large"
           onSearch={value => console.log(value)}
         />
-        <GraphChart />
+        {/* <GraphChart /> */}
         <Spin spinning={loading} size="large" />
       </div>
       <EntityTable />
+      <ERGraphChart/>
     </PageHeaderWrapper>
   );
 };
