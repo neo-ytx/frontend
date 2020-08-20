@@ -13,6 +13,18 @@ export async function getProcessDoc(params){
   })
 }
 
+export async function getProcessTime(params){
+  return request("/api/process_time",{
+    params,
+  })
+}
+
+export async function getProcessFinishSize(params){
+  return request("/api/process_finish_size",{
+    params,
+  })
+}
+
 export async function queryFakeList(params) {
   return request('/api/fake_list', {
     params,

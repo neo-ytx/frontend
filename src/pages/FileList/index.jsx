@@ -6,7 +6,7 @@ import {
   Card,
   Col,
   Dropdown,
-  Input,
+  // Input,
   List,
   Menu,
   Modal,
@@ -25,7 +25,7 @@ import { addProcessDoc } from './service';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
-const { Search } = Input;
+// const { Search } = Input;
 
 const Info = ({ title, value, bordered }) => (
   <div className={styles.headerInfo}>
@@ -66,6 +66,8 @@ export const FileList = props => {
     processList: { 
       list,
       listTotal,
+      time,
+      finishSize,
     },
   } = props;
   const [done, setDone] = useState(false);
@@ -77,6 +79,16 @@ export const FileList = props => {
       payload: {
       },
     });
+    dispatch({
+      type: 'processList/time',
+      payload: {
+      }
+    })
+    dispatch({
+      type: 'processList/size',
+      payload: {
+      }
+    })
   }, [1]);
 
   const handleSubmit = async selectedRows => {
@@ -207,10 +219,10 @@ export const FileList = props => {
                 <Info title="处理文档总数量" value={`${listTotal}个`} bordered />
               </Col>
               <Col sm={8} xs={24}>
-                <Info title="文档处理平均处理时间" value="32分钟" bordered />
+                <Info title="文档处理平均处理时间" value={`${time}分钟`} bordered />
               </Col>
               <Col sm={8} xs={24}>
-                <Info title="已处理文档处理数量" value="24个" />
+                <Info title="已处理文档处理数量" value={`${finishSize}个`} />
               </Col>
             </Row>
           </Card>
@@ -264,7 +276,7 @@ export const FileList = props => {
                   <List.Item.Meta
                     avatar={<Avatar src={getfileIcon(item.title)} shape="square" size="large" />}
                     title={<a href={item.href}>{item.title}</a>}
-                    description={item.subDescription}
+                    description={item.description}
                   />
                   <ListContent data={item} />
                 </List.Item>
