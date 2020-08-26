@@ -5,3 +5,9 @@ export async function queryFakeList(params) {
     params,
   });
 }
+
+export async function searchDoument(params){
+  return request('/api/search', {
+    params,
+  });
+}

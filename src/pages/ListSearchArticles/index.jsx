@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Input, Button, Card, Form, List, Select, Tag } from 'antd';
+import { Input, Button, Card, Form, List, Select, Avatar } from 'antd';
 import { LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
@@ -37,6 +37,20 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
       },
     });
   };
+  const getfileIcon = (fileName) =>{
+    const index= fileName.lastIndexOf(".");
+    const ext = fileName.substr(index+1);
+    if(ext==='doc'||ext==='docx') {
+      return '/cus/word.svg';
+    }
+    if(ext==='csv'||ext==='xls'||ext==='xlsx') {
+      return '/cus/excel.svg';
+    }
+    if(ext==='ppt'||ext==='pptx') {
+      return '/cus/powerpoint.svg';
+    }
+    return '/cus/file.svg';
+  }
 
   const owners = [
     {
@@ -145,7 +159,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
     <PageHeaderWrapper>
       <Card bordered={false}>
         <Search
-              placeholder="input search text"
+              placeholder="输入搜索关键词"
               enterButton="Search"
               size="large"
               onSearch={value => console.log(value)}
@@ -167,30 +181,6 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
             });
           }}
         >
-          {/* <StandardFormRow
-            title="所属类目"
-            block
-            style={{
-              paddingBottom: 11,
-            }}
-          >
-            <FormItem name="category">
-              <TagSelect expandable>
-                <TagSelect.Option value="cat1">类目一</TagSelect.Option>
-                <TagSelect.Option value="cat2">类目二</TagSelect.Option>
-                <TagSelect.Option value="cat3">类目三</TagSelect.Option>
-                <TagSelect.Option value="cat4">类目四</TagSelect.Option>
-                <TagSelect.Option value="cat5">类目五</TagSelect.Option>
-                <TagSelect.Option value="cat6">类目六</TagSelect.Option>
-                <TagSelect.Option value="cat7">类目七</TagSelect.Option>
-                <TagSelect.Option value="cat8">类目八</TagSelect.Option>
-                <TagSelect.Option value="cat9">类目九</TagSelect.Option>
-                <TagSelect.Option value="cat10">类目十</TagSelect.Option>
-                <TagSelect.Option value="cat11">类目十一</TagSelect.Option>
-                <TagSelect.Option value="cat12">类目十二</TagSelect.Option>
-              </TagSelect>
-            </FormItem>
-          </StandardFormRow> */}
           <StandardFormRow title="owner" grid>
             <FormItem name="owner" noStyle>
               <Select mode="multiple" placeholder="选择 owner">
@@ -205,36 +195,6 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
               只看自己的
             </a>
           </StandardFormRow>
-          {/* <StandardFormRow title="其它选项" grid last>
-            <Row gutter={16}>
-              <Col xl={8} lg={10} md={12} sm={24} xs={24}>
-                <FormItem {...formItemLayout} label="活跃用户" name="user">
-                  <Select
-                    placeholder="不限"
-                    style={{
-                      maxWidth: 200,
-                      width: '100%',
-                    }}
-                  >
-                    <Option value="lisa">李三</Option>
-                  </Select>
-                </FormItem>
-              </Col>
-              <Col xl={8} lg={10} md={12} sm={24} xs={24}>
-                <FormItem {...formItemLayout} label="好评度" name="rate">
-                  <Select
-                    placeholder="不限"
-                    style={{
-                      maxWidth: 200,
-                      width: '100%',
-                    }}
-                  >
-                    <Option value="good">优秀</Option>
-                  </Select>
-                </FormItem>
-              </Col>
-            </Row>
-          </StandardFormRow> */}
         </Form>
       </Card>
       <Card
@@ -266,16 +226,17 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
               <List.Item.Meta
                 title={
                   <a className={styles.listItemMetaTitle} href={item.href}>
-                    {item.title}
+                    <Avatar src={getfileIcon(item.title)} shape="square" size="default" />
+                    &nbsp;{item.title}
                   </a>
                 }
-                description={
-                  <span>
-                    <Tag>生物技术</Tag>
-                    <Tag>医学</Tag>
-                    <Tag>中文文本</Tag>
-                  </span>
-                }
+                // description={
+                //   <span>
+                //     <Tag>生物技术</Tag>
+                //     <Tag>医学</Tag>
+                //     <Tag>中文文本</Tag>
+                //   </span>
+                // }
               />
               <ArticleListContent data={item} />
             </List.Item>
