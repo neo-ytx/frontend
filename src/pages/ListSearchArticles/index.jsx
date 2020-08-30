@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Input, Button, Card, Form, List, Select, Avatar } from 'antd';
 import { LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
@@ -11,17 +11,17 @@ import styles from './style.less';
 const { Option } = Select;
 const FormItem = Form.Item;
 const pageSize = 5;
-const {Search} = Input;
+const { Search } = Input;
 const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading }) => {
   const [form] = Form.useForm();
-  useEffect(() => {
-    dispatch({
-      type: 'listSearchArticles/fetch',
-      payload: {
-        count: 5,
-      },
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'listSearchArticles/fetch',
+  //     payload: {
+  //       count: 5,
+  //     },
+  //   });
+  // }, []);
 
   const setOwner = () => {
     form.setFieldsValue({
@@ -37,20 +37,20 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
       },
     });
   };
-  const getfileIcon = (fileName) =>{
-    const index= fileName.lastIndexOf(".");
-    const ext = fileName.substr(index+1);
-    if(ext==='doc'||ext==='docx') {
+  const getfileIcon = (fileName) => {
+    const index = fileName.lastIndexOf('.');
+    const ext = fileName.substr(index + 1);
+    if (ext === 'doc' || ext === 'docx') {
       return '/cus/word.svg';
     }
-    if(ext==='csv'||ext==='xls'||ext==='xlsx') {
+    if (ext === 'csv' || ext === 'xls' || ext === 'xlsx') {
       return '/cus/excel.svg';
     }
-    if(ext==='ppt'||ext==='pptx') {
+    if (ext === 'ppt' || ext === 'pptx') {
       return '/cus/powerpoint.svg';
     }
     return '/cus/file.svg';
-  }
+  };
 
   const owners = [
     {
@@ -159,11 +159,19 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
     <PageHeaderWrapper>
       <Card bordered={false}>
         <Search
-              placeholder="输入搜索关键词"
-              enterButton="Search"
-              size="large"
-              onSearch={value => console.log(value)}
-            />
+          placeholder="输入搜索关键词"
+          enterButton="Search"
+          size="large"
+          onSearch={(value) => {
+            console.log(value);
+            dispatch({
+              type: 'listSearchArticles/search',
+              payload: {
+                keyword: value,
+              },
+            });
+          }}
+        />
       </Card>
       <Card bordered={false}>
         <Form
@@ -184,7 +192,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
           <StandardFormRow title="owner" grid>
             <FormItem name="owner" noStyle>
               <Select mode="multiple" placeholder="选择 owner">
-                {owners.map(owner => (
+                {owners.map((owner) => (
                   <Option key={owner.id} value={owner.id}>
                     {owner.name}
                   </Option>
@@ -213,7 +221,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
           itemLayout="vertical"
           loadMore={loadMore}
           dataSource={list}
-          renderItem={item => (
+          renderItem={(item) => (
             <List.Item
               key={item.id}
               actions={[

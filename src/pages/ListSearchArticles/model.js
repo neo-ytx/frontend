@@ -1,4 +1,4 @@
-import { queryFakeList, searchDoument} from './service';
+import { queryFakeList, searchDoument } from './service';
 
 const Model = {
   namespace: 'listSearchArticles',
@@ -8,10 +8,11 @@ const Model = {
   effects: {
     *search({ payload }, { call, put }) {
       const response = yield call(searchDoument, payload);
+      console.log(response);
       yield put({
         type: 'updateSearch',
-        payload: Array.isArray(response.reaslt) ? response.result : [],
-      })
+        payload: response.result,
+      });
     },
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryFakeList, payload);
@@ -30,8 +31,9 @@ const Model = {
     },
   },
   reducers: {
-    updateSearch(state, action){
-      return {...state, list: action.payload}
+    updateSearch(state, action) {
+      console.log(action.payload);
+      return { ...state, list: action.payload };
     },
     queryList(state, action) {
       return { ...state, list: action.payload };
