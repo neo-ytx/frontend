@@ -1,42 +1,14 @@
 import React from 'react';
-import { Input, Button, Card, Form, List, Select, Avatar } from 'antd';
-import { LoadingOutlined, StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
+import { Input, Card, List, Avatar } from 'antd';
+import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ArticleListContent from './components/ArticleListContent';
-import StandardFormRow from './components/StandardFormRow';
 // import TagSelect from './components/TagSelect';
 import styles from './style.less';
 
-const { Option } = Select;
-const FormItem = Form.Item;
-const pageSize = 5;
 const { Search } = Input;
 const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading }) => {
-  const [form] = Form.useForm();
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'listSearchArticles/fetch',
-  //     payload: {
-  //       count: 5,
-  //     },
-  //   });
-  // }, []);
-
-  const setOwner = () => {
-    form.setFieldsValue({
-      owner: ['wzj'],
-    });
-  };
-
-  const fetchMore = () => {
-    dispatch({
-      type: 'listSearchArticles/appendFetch',
-      payload: {
-        count: pageSize,
-      },
-    });
-  };
   const getfileIcon = (fileName) => {
     const index = fileName.lastIndexOf('.');
     const ext = fileName.substr(index + 1);
@@ -51,29 +23,6 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
     }
     return '/cus/file.svg';
   };
-
-  const owners = [
-    {
-      id: 'wzj',
-      name: '我自己',
-    },
-    {
-      id: 'wjh',
-      name: '吴家豪',
-    },
-    {
-      id: 'zxx',
-      name: '周星星',
-    },
-    {
-      id: 'zly',
-      name: '赵丽颖',
-    },
-    {
-      id: 'ym',
-      name: '姚明',
-    },
-  ];
 
   const IconText = ({ type, text }) => {
     switch (type) {
@@ -138,7 +87,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
         marginTop: 16,
       }}
     >
-      <Button
+      {/* <Button
         onClick={fetchMore}
         style={{
           paddingLeft: 48,
@@ -152,7 +101,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
         ) : (
           '加载更多'
         )}
-      </Button>
+      </Button> */}
     </div>
   );
   return (
@@ -160,10 +109,9 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
       <Card bordered={false}>
         <Search
           placeholder="输入搜索关键词"
-          enterButton="Search"
+          enterButton="搜索"
           size="large"
           onSearch={(value) => {
-            console.log(value);
             dispatch({
               type: 'listSearchArticles/search',
               payload: {
@@ -173,7 +121,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
           }}
         />
       </Card>
-      <Card bordered={false}>
+      {/* <Card bordered={false}>
         <Form
           layout="inline"
           form={form}
@@ -204,7 +152,7 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
             </a>
           </StandardFormRow>
         </Form>
-      </Card>
+      </Card> */}
       <Card
         style={{
           marginTop: 24,
@@ -229,7 +177,6 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
                 <IconText key="like" type="like-o" text={item.like} />,
                 <IconText key="message" type="message" text={item.message} />,
               ]}
-              extra={<div className={styles.listItemExtra} />}
             >
               <List.Item.Meta
                 title={
@@ -238,13 +185,6 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
                     &nbsp;{item.title}
                   </a>
                 }
-                // description={
-                //   <span>
-                //     <Tag>生物技术</Tag>
-                //     <Tag>医学</Tag>
-                //     <Tag>中文文本</Tag>
-                //   </span>
-                // }
               />
               <ArticleListContent data={item} />
             </List.Item>

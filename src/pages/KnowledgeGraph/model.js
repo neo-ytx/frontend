@@ -1,11 +1,27 @@
-import { getGraph } from './service';
+import { getGraph, create } from './service';
 
 const option = {
+  toolbox: {
+    right: '40px',
+    // top: '15px',
+    feature: {
+      dataView: { show: true, readOnly: false },
+      magicType: {
+        show: true,
+        type: ['line', 'bar'],
+      },
+      restore: { show: true },
+      saveAsImage: {
+        show: true,
+        type: 'png',
+      },
+    },
+  },
   title: {
     text: '知识图谱',
     subtext: 'Default layout',
     top: 'bottom',
-    left: 'right'
+    left: 'right',
   },
   tooltip: {},
   legend: [],
@@ -30,18 +46,18 @@ const option = {
         borderColor: '#fff',
         borderWidth: 1,
         shadowBlur: 10,
-        shadowColor: 'rgba(0, 0, 0, 0.3)'
+        shadowColor: 'rgba(0, 0, 0, 0.3)',
       },
       force: {
-        repulsion: 1500
+        repulsion: 1500,
       },
       emphasis: {
-          lineStyle: {
-              width: 10
-          }
-      }
-    }
-  ]
+        lineStyle: {
+          width: 10,
+        },
+      },
+    },
+  ],
 };
 
 const Model = {
@@ -49,7 +65,7 @@ const Model = {
   state: {
     node: [],
     relationship: [],
-    option: {}
+    option: {},
   },
   effects: {
     *fetch({ payload }, { call, put }) {
@@ -63,20 +79,24 @@ const Model = {
       yield put({
         type: 'initGraph',
         payload,
-      })
-    }
+      });
+    },
+    *createImg({ payload }, { call }) {
+      console.log('1231');
+      yield call(create, payload);
+    },
   },
   reducers: {
     initGraph(state, { payload: { nodes, links } }) {
       const categories = [];
       for (let i = 0; i < 9; i += 1) {
         categories[i] = {
-          name: `类目${i}`
+          name: `类目${i}`,
         };
       }
       const legend = categories.map((a) => {
         return a.name;
-      })
+      });
 
       option.legend = [{ data: legend }];
       option.series[0].data = nodes.map((node) => {
@@ -89,23 +109,23 @@ const Model = {
           x: null,
           y: null,
           draggable: true,
-        }
+        };
       });
       option.series[0].links = links;
       option.series[0].categories = categories;
       return {
         ...state,
-        option
-      }
+        option,
+      };
     },
     updateGraph(state, action) {
       return {
         ...state,
         node: action.payload.node,
         relationship: action.payload.rel,
-      }
-    }
+      };
+    },
   },
-}
+};
 
 export default Model;
