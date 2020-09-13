@@ -1,5 +1,11 @@
 import request from '@/utils/request';
 
+export async function search(params) {
+  return request('/api/searchGraph', {
+    params,
+  });
+}
+
 export async function getGraph(params) {
   return request('/api/graph', {
     params,

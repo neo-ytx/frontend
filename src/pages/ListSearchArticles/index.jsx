@@ -4,7 +4,7 @@ import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ArticleListContent from './components/ArticleListContent';
-// import TagSelect from './components/TagSelect';
+
 import styles from './style.less';
 
 const { Search } = Input;
@@ -67,42 +67,13 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
     }
   };
 
-  // const formItemLayout = {
-  //   wrapperCol: {
-  //     xs: {
-  //       span: 24,
-  //     },
-  //     sm: {
-  //       span: 24,
-  //     },
-  //     md: {
-  //       span: 12,
-  //     },
-  //   },
-  // };
   const loadMore = list.length > 0 && (
     <div
       style={{
         textAlign: 'center',
         marginTop: 16,
       }}
-    >
-      {/* <Button
-        onClick={fetchMore}
-        style={{
-          paddingLeft: 48,
-          paddingRight: 48,
-        }}
-      >
-        {loading ? (
-          <span>
-            <LoadingOutlined /> 加载中...
-          </span>
-        ) : (
-          '加载更多'
-        )}
-      </Button> */}
-    </div>
+    />
   );
   return (
     <PageHeaderWrapper>
@@ -121,38 +92,6 @@ const ListSearchArticles = ({ dispatch, listSearchArticles: { list }, loading })
           }}
         />
       </Card>
-      {/* <Card bordered={false}>
-        <Form
-          layout="inline"
-          form={form}
-          initialValues={{
-            owner: ['wjh', 'zxx'],
-          }}
-          onValuesChange={() => {
-            dispatch({
-              type: 'listSearchArticles/fetch',
-              payload: {
-                count: 8,
-              },
-            });
-          }}
-        >
-          <StandardFormRow title="owner" grid>
-            <FormItem name="owner" noStyle>
-              <Select mode="multiple" placeholder="选择 owner">
-                {owners.map((owner) => (
-                  <Option key={owner.id} value={owner.id}>
-                    {owner.name}
-                  </Option>
-                ))}
-              </Select>
-            </FormItem>
-            <a className={styles.selfTrigger} onClick={setOwner}>
-              只看自己的
-            </a>
-          </StandardFormRow>
-        </Form>
-      </Card> */}
       <Card
         style={{
           marginTop: 24,

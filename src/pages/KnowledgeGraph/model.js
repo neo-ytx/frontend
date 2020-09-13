@@ -1,4 +1,4 @@
-import { getGraph, create } from './service';
+import { getGraph, create, search } from './service';
 
 const option = {
   toolbox: {
@@ -6,10 +6,6 @@ const option = {
     // top: '15px',
     feature: {
       dataView: { show: true, readOnly: false },
-      magicType: {
-        show: true,
-        type: ['line', 'bar'],
-      },
       restore: { show: true },
       saveAsImage: {
         show: true,
@@ -18,7 +14,7 @@ const option = {
     },
   },
   title: {
-    text: '知识图谱',
+    text: '知识库',
     subtext: 'Default layout',
     top: 'bottom',
     left: 'right',
@@ -66,8 +62,20 @@ const Model = {
     node: [],
     relationship: [],
     option: {},
+    topicList: ['默认'],
   },
   effects: {
+    *search({ payload }, { call, put }) {
+      yield put({
+        type: 'emptyGraph',
+        payload: {},
+      });
+      const response = yield call(search, payload);
+      yield put({
+        type: 'updateGraph',
+        payload: response.result,
+      });
+    },
     *fetch({ payload }, { call, put }) {
       const response = yield call(getGraph, payload);
       yield put({
@@ -82,7 +90,6 @@ const Model = {
       });
     },
     *createImg({ payload }, { call }) {
-      console.log('1231');
       yield call(create, payload);
     },
   },
@@ -118,11 +125,45 @@ const Model = {
         option,
       };
     },
-    updateGraph(state, action) {
+    emptyGraph(state) {
       return {
         ...state,
-        node: action.payload.node,
-        relationship: action.payload.rel,
+        option: {},
+      };
+    },
+    updateGraph(state, { payload: { nodes, links } }) {
+      const categories = [];
+      for (let i = 0; i < 2; i += 1) {
+        categories[i] = {
+          name: `类目${i}`,
+        };
+      }
+      const legend = categories.map((a) => {
+        return a.name;
+      });
+      option.legend = [{ data: legend }];
+      option.series[0].categories = categories;
+      option.series[0].data = nodes.map((node) => {
+        return {
+          ...node,
+          itemStyle: null,
+          symbolSize: 30,
+          value: node.name,
+          category: node.category,
+          x: null,
+          y: null,
+          draggable: true,
+          label: {
+            normal: {
+              show: true,
+            },
+          },
+        };
+      });
+      option.series[0].links = links;
+      return {
+        ...state,
+        option,
       };
     },
   },
