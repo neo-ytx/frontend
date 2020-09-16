@@ -95,6 +95,12 @@ export default defineConfig({
               component: './ListSearchArticles',
             },
             {
+              name: '主题列表',
+              icon: 'BankOutlined',
+              path: '/listtopic',
+              component: './ListTopic',
+            },
+            {
               name: '分析页面',
               icon: 'DashboardOutlined',
               path: '/dashboardanalysis',
