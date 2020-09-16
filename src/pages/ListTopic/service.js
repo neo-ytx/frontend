@@ -8,11 +8,6 @@ export async function queryFakeList(params) {
 export async function createTopic(params) {
   return request('/api/topic', {
     method: 'POST',
-    params,
-  });
-}
-export async function getTopicDetail(params) {
-  return request('/api/topicDetail', {
-    params,
+    data: { ...params },
   });
 }

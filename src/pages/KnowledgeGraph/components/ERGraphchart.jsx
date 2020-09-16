@@ -67,6 +67,7 @@ const ERGraphChart = (props) => {
           }}
         >
           {topicList.map((item) => {
+            console.log(item);
             return <Option value={item}>{item}</Option>;
           })}
         </Select>

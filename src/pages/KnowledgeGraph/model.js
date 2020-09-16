@@ -1,4 +1,4 @@
-import { getGraph, create, search } from './service';
+import { getGraph, create, search, getTopic } from './service';
 
 const option = {
   toolbox: {
@@ -83,7 +83,12 @@ const Model = {
         payload: response,
       });
     },
-    *init({ payload }, { put }) {
+    *init({ payload }, { call, put }) {
+      const response = yield call(getTopic, {});
+      yield put({
+        type: 'setTopic',
+        payload: Array.isArray(response.data) ? response.data : [],
+      });
       yield put({
         type: 'initGraph',
         payload,
@@ -94,6 +99,10 @@ const Model = {
     },
   },
   reducers: {
+    setTopic(state, action) {
+      const list = action.payload.map((item) => item.title);
+      return { ...state, topicList: list };
+    },
     initGraph(state, { payload: { nodes, links } }) {
       const categories = [];
       for (let i = 0; i < 9; i += 1) {

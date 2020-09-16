@@ -17,3 +17,9 @@ export async function create(params) {
     data: { ...params },
   });
 }
+
+export async function getTopic(params) {
+  return request('/api/topic', {
+    params,
+  });
+}

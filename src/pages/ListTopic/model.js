@@ -1,31 +1,32 @@
-import { queryFakeList, createTopic, getTopicDetail } from './service';
+import { queryFakeList, createTopic } from './service';
 
 const Model = {
   namespace: 'listTopic',
   state: {
     list: [],
-    detail: {},
+    detail: [],
   },
   effects: {
     *create({ payload }, { call, put }) {
-      const response = yield call(createTopic, payload);
+      console.log('123123', payload);
+      yield call(createTopic, payload);
+      const response = yield call(queryFakeList, payload);
       yield put({
         type: 'queryList',
-        payload: Array.isArray(response) ? response : [],
+        payload: Array.isArray(response.data) ? response.data : [],
       });
     },
     *fetch({ payload }, { call, put }) {
       const response = yield call(queryFakeList, payload);
       yield put({
         type: 'queryList',
-        payload: Array.isArray(response) ? response : [],
+        payload: Array.isArray(response.data) ? response.data : [],
       });
     },
-    *detail({ payload }, { call, put }) {
-      const response = yield call(getTopicDetail, payload);
+    *detail({ payload }, { put }) {
       yield put({
         type: 'setDetail',
-        payload: response.data,
+        payload,
       });
     },
   },
